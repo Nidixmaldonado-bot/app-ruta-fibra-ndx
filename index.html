@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Chequeo de Ruta FO</title>
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+<style>
+
+#map{
+height:100vh;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div id="map"></div>
+
+<script>
+
+var map = L.map('map').setView([28.6353,-106.0889],13);
+
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
+maxZoom:19
+}).addTo(map);
+
+var rutaFibra = [
+[28.6353,-106.0889],
+[28.6365,-106.0900],
+[28.6380,-106.0915]
+];
+
+var lineaRuta = L.polyline(rutaFibra,{
+color:'red',
+weight:4
+}).addTo(map);
+
+var recorrido = [];
+
+var lineaRecorrido = L.polyline(recorrido,{
+color:'green',
+weight:5
+}).addTo(map);
+
+navigator.geolocation.watchPosition(function(pos){
+
+var lat = pos.coords.latitude;
+var lon = pos.coords.longitude;
+
+var punto = [lat,lon];
+
+recorrido.push(punto);
+
+lineaRecorrido.setLatLngs(recorrido);
+
+L.marker(punto).addTo(map);
+
+});
+
+</script>
+
+</body>
+
+</html>
